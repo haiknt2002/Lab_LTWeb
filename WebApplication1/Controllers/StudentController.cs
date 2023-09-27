@@ -15,9 +15,9 @@ namespace BTH1.Controllers
 
             listStudents = new List<Student>()
             {
-                new Student() { Id = 101, Name = "Toan", Branch = Branch.IT,
+                new Student() { Id = 101, Name = "Hai", Branch = Branch.IT,
                                 Gender = Gender.Male, IsRegular = true,
-                                Address = "A1-2018", Email = "toan@g.com"},
+                                Address = "A1-2018", Email = "hai@g.com"},
                 new Student()
                 {
                     Id = 102,
@@ -59,8 +59,14 @@ namespace BTH1.Controllers
 
         [HttpGet]
         [Route("Admin/Student/Add")]
-        public IActionResult Create()
+        public IActionResult Create(Student s)
         {
+            if (ModelState.IsValid)
+            {
+                s.Id = listStudents.Last<Student>().Id + 1;
+                listStudents.Add(s);
+                return View("Index", listStudents);
+            }
             ViewBag.AllGenders = Enum.GetValues(typeof(Gender)).Cast<Gender>().ToList();
             ViewBag.AllBranches = new List<SelectListItem>()
             {
